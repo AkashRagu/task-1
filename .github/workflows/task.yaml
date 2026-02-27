@@ -1,0 +1,49 @@
+name: practice
+on: push
+jobs:
+  lint_phase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get code
+        uses: actions/checkout@v6
+      - name: install npm
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: install dependencies
+        run: npm ci
+      - name: lint
+        run: npm install --save-dev eslint
+  test_phase:
+    needs: lint_phase
+    runs-on: ubuntu-latest
+    steps:
+      - name: get code
+        uses: actions/checkout@v6
+      - name: install npm
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: install dependencies
+        run: npm ci
+      - name: run test
+        run: npm test
+  build_and_deploy_Phase:
+    needs: test_phase
+    runs-on: ubuntu-latest
+    steps:
+      - name: get code
+        uses: actions/checkout@v6
+      - name: install npm
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: install dependencies
+        run: npm ci
+      - name: build
+        run: npm build
+      - name: deploy code
+        run: echo "Deploy success...!!!!!"
+
+
+      
